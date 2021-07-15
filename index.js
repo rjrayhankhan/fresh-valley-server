@@ -1,13 +1,13 @@
 const express = require('express')
 const app = express()
-const cors = require('cors');
+// const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config()
 const { MongoClient } = require('mongodb');
 const port = process.env.PORT || 5055;
 
 
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 
 
@@ -32,7 +32,7 @@ client.connect(err => {
      })
   })
 
-  // client.close();
+  client.close();
 });
 
 app.listen(port, () => {
