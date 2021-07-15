@@ -4,7 +4,7 @@ const app = express()
 const bodyParser = require('body-parser');
 require('dotenv').config()
 const { MongoClient } = require('mongodb');
-const port = process.env.PORT || 5055;
+const port = 5055;
 
 
 // app.use(cors());
@@ -35,6 +35,4 @@ client.connect(err => {
   client.close();
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+app.listen(process.env.PORT || port)
