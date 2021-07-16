@@ -16,12 +16,13 @@ app.get('/', (req, res) => {
 })
 
 
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.4oyrt.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     console.log("connection error", err)
   const productCollection = client.db("freshValley").collection("products");
-  
+
   app.post('/addProduct', (req, res) => {
      const newProduct = req.body;
      console.log('adding new event', newProduct);
@@ -32,7 +33,7 @@ client.connect(err => {
      })
   })
 
-  client.close();
+  // client.close();
 });
 
 app.listen(process.env.PORT || port)
