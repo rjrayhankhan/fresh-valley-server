@@ -22,6 +22,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
     console.log("connection error", err)
   const productCollection = client.db("freshValley").collection("products");
+  const userCollection = client.db("freshValley").collection("userData");
 
 
   app.get('/products', (req, res) => {
@@ -37,6 +38,17 @@ client.connect(err => {
      const newProduct = req.body;
      console.log('adding new event', newProduct);
      productCollection.insertOne(newProduct)
+     .then(result => {
+          console.log('inserted ', result.insertedId);
+          res.send(result.insertedId > 0)
+     })
+  })
+
+
+  app.post('/userOrder', (req, res) => {
+     const userData = req.body;
+     console.log('adding new event', userData);
+     userCollection.insertOne(userData)
      .then(result => {
           console.log('inserted ', result.insertedId);
           res.send(result.insertedId > 0)
