@@ -4,11 +4,14 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv').config()
 const { MongoClient } = require('mongodb');
+const ObjectID = require('mongodb').ObjectId;
+
 const port = 5055;
 
 
 app.use(cors());
 app.use(bodyParser.json());
+
 
 
 app.get('/', (req, res) => {
@@ -33,6 +36,14 @@ client.connect(err => {
       })
   })
 
+  // app.get('/product/:id', (req, res) => {
+  //     productCollection.find({_id: req.query.id})
+  //     .toArray((err, items) => {
+  //       console.log('from database', items, err)
+  //        res.send(items)
+  //     }) 
+  // }) 
+
 
   app.post('/addProduct', (req, res) => {
      const newProduct = req.body;
@@ -53,6 +64,20 @@ client.connect(err => {
           console.log('inserted ', result.insertedId);
           res.send(result.insertedId > 0)
      })
+  })
+
+  app.get('/userOrders', (req, res) => {
+      userCollection.find({email: req.query.email})
+      .toArray((err, items) => {
+          res.send(items)
+      })
+  })
+
+  app.delete('deleteEvent/:id', (req, res) => {
+     const id = ObjectID(req.params.id);
+     console.log('delete this event', id)
+     productCollection.findOneAndDelete({_id: id})
+     .then(document => res.send(document))
   })
 
   // client.close();
